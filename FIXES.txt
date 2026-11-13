@@ -1,0 +1,43 @@
+Fitness Manager v63 repair notes
+
+Fixed:
+- Saved-client startup could stop with a goal-picker initialization error,
+  preventing later modules and controls from loading.
+- Programme inputs were not saved by the debounce timer unless builder settings
+  had also changed. Inputs now save before blur and when leaving the page.
+- The Safety snapshots screen called a missing function and its buttons were
+  unconnected. Listing, creating and restoring snapshots are now wired up.
+- Opening an approved sharing copy could leave another named draft marked active,
+  allowing later saves to overwrite that draft with the wrong programme.
+- Opening an earlier programme for the same client could reload the current
+  editor over the restored version.
+- Adding or replacing an exercise could change the editor's client ownership
+  merely because another profile was selected.
+- Changing the Companion client retained another client's sharing checkboxes;
+  its handler also bypassed the newer checkbox renderer.
+- IndexedDB recovery could replace a newer local copy with an older saved copy.
+  Saves now have comparable revisions and recovery checks them.
+- Restoring an old backup merged unrelated modern records into the restore and
+  could add pre-restore content to its history. Restore now replaces records,
+  initializes missing modules, refreshes selectors and awaits the save result.
+- Impossible dates such as 2026-02-31 were accepted for sharing copies.
+- Opening a named programme now also refreshes the matching client form.
+- Duplicating a named programme now captures current edits first.
+- Update checking still compared against version 47 and the header said 61.
+- Manifest paths assumed one hosting directory; paths are now relative.
+- Offline navigation did not refresh its cached app after a successful online
+  load. The v63 worker refreshes it and scopes cache lookups to its own cache.
+
+Validation:
+- Chromium browser checks cover fresh startup and every navigation tab, saved
+  client reopening, debounce saving without blur, named/approved copy isolation,
+  same-client history restore, Companion client switching, safety snapshots,
+  stale IndexedDB recovery, legacy backup replacement and invalid dates.
+- Actual service worker installation, version checking, mobile-size launch,
+  manifest paths and offline reload tested.
+- Tests use fictional clients and isolated browser contexts.
+
+Limits:
+This is a targeted repair and regression pass, not proof every workflow is
+error-free. External exercise services, messaging-app file acceptance, and
+installation on physical iOS/Android devices have not been verified.

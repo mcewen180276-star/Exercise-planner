@@ -1,0 +1,5 @@
+{
+  "version": "63",
+  "release": "2026-11-12",
+  "features": "Startup, autosave, recovery, approved programme selection, backup restore and offline installation fixes"
+}
